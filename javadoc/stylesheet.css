@@ -577,6 +577,7 @@ Formatting effect styles
 .subTitle {
     color: #D44413;
 }
+<<<<<<< HEAD
 
 
 .topNav, .bottomNav {
@@ -594,3 +595,5 @@ padding-bottom: 6px;
 caption span span, .contentContainer ul.blockList li.blockList caption span span {
 padding: 0px;
 }
+=======
+>>>>>>> activeweb/master

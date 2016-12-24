@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 activejdbc-instrumentation/dependency-reduced-pom.xml
 
 # Created by https://www.gitignore.io
@@ -164,3 +165,19 @@ release.properties
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+=======
+*.class
+**/**/.DS_Store
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.iml
+.idea/
+*.ipr
+target/
+
+
+
+>>>>>>> activeweb/master
