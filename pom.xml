@@ -1,26 +1,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>org.javalite</groupId>
-<<<<<<< HEAD
-    <artifactId>activejdbc-root</artifactId>
+    <artifactId>javalite-root</artifactId>
     <packaging>pom</packaging>
     <version>2.0-SNAPSHOT</version>
-    <name>JavaLite - ActiveJDBC Root</name>
-    <url>https://github.com/javalite/activejdbc/</url>
-=======
-    <artifactId>activeweb-root</artifactId>
-    <packaging>pom</packaging>
-    <version>2.0-SNAPSHOT</version>
-    <name>ActiveWeb - Root</name>
-    <description>ActiveWeb  - Java Web Framework inspired by Ruby on Rails</description>
+    <name>JavaLite - Root</name>
+    <url>https://github.com/javalite/javalite/</url>
+    <description>JavaLite - Agile ecosystem for a modern java developer</description>
     <developers>
         <developer>
             <name>Igor Polevoy</name>
             <email>igor at polevoy dot org</email>
         </developer>
     </developers>
->>>>>>> activeweb/master
 
     <parent>
         <groupId>org.sonatype.oss</groupId>
@@ -28,7 +20,6 @@
         <version>7</version>
     </parent>
 
-<<<<<<< HEAD
     <organization>
         <name>JavaLite</name>
         <url>http://javalite.io</url>
@@ -39,6 +30,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
         <skipTests>false</skipTests>
+        <slf4j-simple-version>1.7.5</slf4j-simple-version>
 	</properties>
 	
     <licenses>
@@ -50,77 +42,48 @@
     </licenses>
 
     <scm>
-       <connection>scm:git:git@github.com:javalite/activejdbc.git</connection>
-       <developerConnection>scm:git:git@github.com:javalite/activejdbc.git</developerConnection>
-       <url>git@github.com:javalite/activejdbc.git</url>
+       <connection>scm:git:git@github.com:javalite/javalite.git</connection>
+       <developerConnection>scm:git:git@github.com:javalite/javalite.git</developerConnection>
+       <url>git@github.com:javalite/javalite.git</url>
      </scm>
 
-    <profiles>
-        <profile>
-            <id>release</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-=======
-    <scm>
-        <connection>scm:git:git@github.com:javalite/activeweb.git</connection>
-        <developerConnection>scm:git:git@github.com:javalite/activeweb.git</developerConnection>
-        <url>git@github.com:javalite/activeweb.git</url>
-    </scm>
-
     <modules>
+        <module>javalite-common</module>
+        <module>activejdbc-instrumentation</module>
+        <module>activejdbc</module>
+        <module>db-migrator-maven-plugin</module>
+        <module>db-migrator-integration-test</module>
+        <module>git-info-maven-plugin</module>
+        <module>app-config</module>
+        <module>activejdbc-gradle-plugin</module>
         <module>activeweb</module>
         <module>activeweb-testing</module>
         <module>activeweb-gwt</module>
-        <module>activeweb-lessc</module>
+        <module>activeweb-lessc-maven-plugin</module>
         <module>activeweb-lessc-integration-test</module>
         <module>javalite-async</module>
     </modules>
 
-    <properties>
-        <activejdbc.version>1.4.13</activejdbc.version>
-    </properties>
-
->>>>>>> activeweb/master
     <build>
         <pluginManagement>
             <plugins>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-<<<<<<< HEAD
-                    <version>3.2</version>
+                    <version>2.3.2</version>
                     <configuration>
                         <source>${maven.compiler.source}</source>
                         <target>${maven.compiler.target}</target>
-                        <meminitial>128m</meminitial>
-                        <maxmem>512m</maxmem>
                     </configuration>
                 </plugin>
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.19.1</version>
                     <configuration>
-                        <reportFormat>brief</reportFormat>
-                        <trimStackTrace>true</trimStackTrace>
                         <useFile>false</useFile>
                         <skipTests>${skipTests}</skipTests>
-                        <includes>
-                            <include>**/*Spec*.java</include>
-                            <include>**/*Test*.java</include>
-                        </includes>
                         <!-- fails with DE Locale as system default -->
                         <argLine>-Duser.country=US -Duser.language=en</argLine>
-                        <trimStackTrace>false</trimStackTrace>
-                        <useFile>false</useFile>
                         <includes>
                             <include>**/*Spec*.java</include>
                             <include>**/*Test*.java</include>
@@ -129,99 +92,29 @@
                             <oracle.jdbc.J2EE13Compliant>true</oracle.jdbc.J2EE13Compliant>
                             <activejdbc.log />
                         </systemPropertyVariables>
+                        <useSystemClassLoader>false</useSystemClassLoader> <!--need for AW build-->
                     </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-gpg-plugin</artifactId>
-                    <version>1.5</version>
-                    <executions>
-                        <execution>
-                            <id>sign-artifacts</id>
-                            <phase>verify</phase>
-                            <goals>
-                                <goal>sign</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        <plugins>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-javadoc-plugin</artifactId>
-              <version>2.10.4</version>
-              <configuration>
-                 <stylesheetfile>javadoc/stylesheet.css</stylesheetfile>
-                 <javadocDirectory>javadoc</javadocDirectory>
-                 <additionalparam>-Xdoclint:none</additionalparam>
-              </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-    <modules>
-        <module>javalite-common</module>
-        <module>activejdbc-instrumentation</module>
-        <module>activejdbc</module>
-        <module>db-migrator</module>
-        <module>db-migrator-integration-test</module>
-        <module>git-info-maven-plugin</module>
-        <module>app-config</module>
-        <module>activejdbc-gradle-plugin</module>
-    </modules>
-    <dependencyManagement>
-        <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
-        </dependency>
-=======
-                    <version>2.3.2</version>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.10.4</version>
                     <configuration>
-                        <source>1.7</source>
-                        <target>1.7</target>
+                        <stylesheetfile>javadoc/stylesheet.css</stylesheetfile>
+                        <javadocDirectory>javadoc</javadocDirectory>
+                        <additionalparam>-Xdoclint:none</additionalparam>
                     </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
-        <plugins>
-             <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-javadoc-plugin</artifactId>
-              <version>2.9.1</version>
-              <configuration>
-                  <stylesheetfile>javadoc/stylesheet.css</stylesheetfile>
-                  <javadocDirectory>javadoc</javadocDirectory>
-                  <additionalparam>-Xdoclint:none</additionalparam>
-              </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.18.1</version>
-                <configuration>
-                    <reportFormat>brief</reportFormat>
-                    <trimStackTrace>true</trimStackTrace>
-                    <useFile>false</useFile>
-                    <includes>
-                        <include>**/*Spec.java</include>
-                        <include>**/*Test*.java</include>
-                    </includes>
-                    <useSystemClassLoader>false</useSystemClassLoader>
-                </configuration>
-            </plugin>
-
-        </plugins>
     </build>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.11</version>
+                <version>4.12</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -233,12 +126,12 @@
             <dependency>
                 <groupId>org.javalite</groupId>
                 <artifactId>javalite-common</artifactId>
-                <version>${activejdbc.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.javalite</groupId>
                 <artifactId>activejdbc</artifactId>
-                <version>${activejdbc.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -256,7 +149,7 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-simple</artifactId>
-                <version>1.6.4</version>
+                <version>${slf4j-simple-version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -273,11 +166,17 @@
             <dependency>
                 <groupId>dom4j</groupId>
                 <artifactId>dom4j</artifactId>
-                <!-- This must be 1.6.1 for now, because slf4j broke backwards compatibility and now SystemStreamUtil does not work as expected.
-                     For now, we are stuck with this version.
-                -->
+                <!-- This must be 1.6.1 for now, because slf4j broke backwards compatibility and now
+                SystemStreamUtil does not work as expected. For now, we are stuck with this version. -->
                 <version>1.6.1</version>
                 <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>xml-apis</groupId>
+                        <artifactId>xml-apis</artifactId>
+                    </exclusion>
+                </exclusions>
+
             </dependency>
             <dependency>
                 <groupId>jaxen</groupId>
@@ -320,13 +219,14 @@
                 <artifactId>jsoup</artifactId>
                 <version>1.8.3</version>
             </dependency>
->>>>>>> activeweb/master
         </dependencies>
     </dependencyManagement>
 
+
+
     <repositories>
         <repository>
-            <id>sonatype-nexus-plugin-snapshots</id>
+            <id>javalite-snapshots</id>
             <name>JavaLite Plugin Snapshots</name>
             <url>http://repo.javalite.io/</url>
             <releases>
@@ -338,24 +238,9 @@
         </repository>
     </repositories>
 
-<<<<<<< HEAD
-
     <pluginRepositories>
         <pluginRepository>
-			<id>sonatype-nexus-plugin-snapshots</id>
-			<name>JavaLite Plugin Snapshots</name>
-			<url>http://repo.javalite.io/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-=======
-    <pluginRepositories>
-        <pluginRepository>
-            <id>sonatype-nexus-plugin-snapshots</id>
+            <id>javalite-plugin-snapshots</id>
             <name>JavaLite Plugin Snapshots</name>
             <url>http://repo.javalite.io/</url>
             <releases>
@@ -365,7 +250,6 @@
                 <enabled>true</enabled>
             </snapshots>
         </pluginRepository>
->>>>>>> activeweb/master
     </pluginRepositories>
 
     <distributionManagement>
