@@ -1,3 +1,5 @@
+#This file has conflicts and needs a rework
+
 <<<<<<< HEAD
 #!/bin/sh
 
