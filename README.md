@@ -1,5 +1,6 @@
-## This is a fork of just the Http part of the JavaLite framework.
+## A fork of just the Http part of the JavaLite framework
 
-For more information, refer to the [main site](http://javalite.io)
+This is a lightweight and fluent Http client framework without any dependencies.
+Several small, but incompatible changes have been made to improve testability of and add features to the original codebase.
 
-
+For more information about the JavaLite framework, refer to [main site](http://javalite.io).
