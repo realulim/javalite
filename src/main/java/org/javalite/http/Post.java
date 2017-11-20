@@ -13,18 +13,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and 
 limitations under the License. 
 */
-
 package org.javalite.http;
 
-import org.javalite.common.Collections;
-
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import static org.javalite.common.Collections.map;
 
 /**
  * Executes a POST request.
