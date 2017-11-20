@@ -1,5 +1,5 @@
-## JavaLite is an agile ecosystem for  a modern Java develper.
+## This is a fork of just the Http part of the JavaLite framework.
 
- For more information, refer to the [main site](http://javalite.io)
+For more information, refer to the [main site](http://javalite.io)
 
 
