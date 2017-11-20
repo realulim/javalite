@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and 
 limitations under the License. 
 */
-
 package org.javalite.http;
 
 import java.io.OutputStream;
@@ -51,15 +50,10 @@ public class Put extends Request<Put> {
             os.write(content);
             os.flush();
             return this;
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             throw new HttpException("Failed URL: " + url, e);
         }
     }
 
-    public static void main(String[] args) {
-        Put put = Http.put("http://localhost:8080/kitchensink/http/put", "bugagaga");
-        System.out.println(put.text());
-        System.out.println(put.headers());
-        System.out.println(put.responseCode());
-    }
 }

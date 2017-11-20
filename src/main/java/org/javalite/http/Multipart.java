@@ -16,7 +16,7 @@ public class Multipart extends Request<Multipart> {
     private PrintWriter writer;
     private String boundary;
     private OutputStream outputStream;
-    private List<FormField> formFields = new ArrayList<>();
+    private final List<FormField> formFields = new ArrayList<>();
 
     /**
      * Contructor to make multipart requests
@@ -158,10 +158,4 @@ public class Multipart extends Request<Multipart> {
         return this;
     }
 
-    public static void main(String[] args){
-        Multipart mp = Http.multipart("http://localhost:8080/upload/save")
-                .field("name1", "val1")
-                .file("file1", "/home/igor/tmp/test.txt");
-        System.out.println(mp.text());
-    }
 }

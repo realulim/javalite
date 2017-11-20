@@ -13,8 +13,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and 
 limitations under the License. 
 */
-
 package org.javalite.http;
+
+import java.net.ProtocolException;
 
 
 /**
@@ -44,15 +45,10 @@ public class Get extends Request<Get> {
             connection.setUseCaches(false);
             connection.setRequestMethod("GET");
             return this;
-        } catch (Exception e) {
+        } 
+        catch (ProtocolException e) {
             throw new HttpException("Failed URL: " + url, e);
         }
     }
 
-    public static void main(String[] args) {
-        Get get = Http.get("https://www.yahoo.com");
-        System.out.println(get.text());
-        System.out.println(get.headers());
-        System.out.println(get.responseCode());
-    }
 }

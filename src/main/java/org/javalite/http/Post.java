@@ -18,6 +18,7 @@ package org.javalite.http;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
+import org.javalite.common.Util;
 
 /**
  * Executes a POST request.
@@ -27,7 +28,7 @@ import java.util.Map;
 public class Post extends Request<Post> {
 
     private final byte[] content;
-    private Map<String, String> params = new HashMap<>();
+    private final Map<String, String> params = new HashMap<>();
 
     /**
      * Constructor for making POST requests.
@@ -56,7 +57,7 @@ public class Post extends Request<Post> {
             }
             OutputStream out = connection.getOutputStream();
             if(params.size() > 0){
-                out.write(Http.map2Content(params).getBytes());
+                out.write(Util.map2Content(params).getBytes());
             }
             if(content != null){
                 out.write(content);
@@ -107,14 +108,4 @@ public class Post extends Request<Post> {
         return this;
     }
 
-    public static void main(String[] args) {
-//        Post post = Http.post("http://localhost:8080/kitchensink/http/post", "this is a post content").header("Content-type", "text/json");
-//        //System.out.println(post.text());
-//        //System.out.println(post.headers());
-//        System.out.println(post.responseCode());
-//        System.out.println(post.responseMessage());
-
-        Post post = Http.post("http://localhost:8080/hello").param("name", "John");
-        System.out.println(post.text());
-    }
 }

@@ -13,8 +13,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and 
 limitations under the License. 
 */
-
 package org.javalite.http;
+
+import java.io.IOException;
 
 /**
  * Executes a DELETE request.
@@ -42,15 +43,10 @@ public class Delete extends Request<Delete> {
             connection.setInstanceFollowRedirects(redirect);
             connection.connect();
             return this;
-        } catch (Exception e) {
+        }
+        catch (IOException e) {
             throw new HttpException("Failed URL: " + url, e);
         }
     }
-    
-    public static void main(String[] args) {
-        Delete delete = Http.delete("http://localhost:8080/kitchensink/http/delete");
-        System.out.println(delete.text());
-        System.out.println(delete.headers());
-        System.out.println(delete.responseCode());
-    }
+
 }

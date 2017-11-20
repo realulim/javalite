@@ -26,10 +26,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import static java.net.URLEncoder.encode;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
+import org.javalite.http.HttpException;
 
 /**
  * @author Igor Polevoy
@@ -223,7 +228,7 @@ public final class Util {
         try {
             isreader = new InputStreamReader(Util.class.getResourceAsStream(resourceName));
             reader = new BufferedReader(isreader);
-            List<String> lines = new ArrayList<String>();
+            List<String> lines = new ArrayList<>();
             String tmp;
             while ((tmp = reader.readLine()) != null) {
                 lines.add(tmp);
@@ -376,6 +381,57 @@ public final class Util {
             }
         }
         return props;
+    }
+
+    /**
+     * Converts a map to URL- encoded content. This is a convenience method
+     * which can be used in combination with
+     * {@link #post(String, byte[])}, {@link #put(String, String)} and others.
+     * It makes it easy to convert parameters to submit a string:
+     *
+     * <pre>
+     *     key=value&key1=value1;
+     * </pre>
+     *
+     *
+     *
+     * @param params map with keys and values to be posted. This map is used to
+     * build content to be posted, such that keys are names of parameters, and
+     * values are values of those posted parameters. This method will also
+     * URL-encode keys and content using UTF-8 encoding.
+     * <p>
+     * String representations of both keys and values are used.
+     * </p>
+     * @return {@link Post} object.
+     */
+    public static String map2Content(Map<String, String> params) {
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            Set<String> keySet = params.keySet();
+            String[] keys = keySet.toArray(new String[] {});
+
+            for (int i = 0; i < keys.length; i++) {
+                stringBuilder.append(encode(keys[i], "UTF-8"))
+                        .append("=")
+                        .append(encode(params.get(keys[i]), "UTF-8"));
+                if (i < (keys.length - 1)) {
+                    stringBuilder.append("&");
+                }
+            }
+        } 
+        catch (UnsupportedEncodingException | RuntimeException e) {
+            throw new HttpException("failed to generate content from map", e);
+        }
+        return stringBuilder.toString();
+    }
+
+    public static String urlEncode(String toEncode) {
+        try {
+            return encode(toEncode, "utf-8");
+        }
+        catch (UnsupportedEncodingException ex) {
+            throw new HttpException("failed to urlencode", ex);
+        }
     }
 
 }
