@@ -12,13 +12,12 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package org.javalite.common;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -29,11 +28,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
-import java.util.StringTokenizer;
 
 /**
  * @author Igor Polevoy
@@ -63,7 +59,8 @@ public final class Util {
     }
 
     /**
-     * Reads contents of resource fully into a string. Sets UTF-8 encoding internally.
+     * Reads contents of resource fully into a string. Sets UTF-8 encoding
+     * internally.
      *
      * @param resourceName resource name.
      * @return entire contents of resource as string.
@@ -120,36 +117,22 @@ public final class Util {
     }
 
     /**
-     * @deprecated use {@link #closeQuietly(AutoCloseable)} instead. Two problems can arise if resources are not
-     * closed quietly in the finally block: (1) If there are multiple close() calls, and one of the first ones throws
-     * an Exception, then the following ones will never be called. (2) If an Exception is thrown inside the
-     * try { ... } catch block and another Exception is thrown by a close() call in the finally { ... } block, then the
-     * second Exception will hide the first one.
-     */
-    @Deprecated
-    public static void close(Closeable c) {
-        try {
-            if (c != null) { c.close(); }
-        } catch (IOException e) {
-            // If there is an exception, the developer needs to pay attention, right? :)
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
      * Closes a resource and swallows exception if thrown during a close.
      *
      * @param autoCloseable resource to close
      */
     public static void closeQuietly(AutoCloseable autoCloseable) {
         try {
-            if (autoCloseable != null) { autoCloseable.close(); }
-        } catch (Exception ignore) {}
+            if (autoCloseable != null) {
+                autoCloseable.close();
+            }
+        } catch (Exception ignore) {
+        }
     }
 
-
     /**
-     * Reads contents of the input stream fully and returns it as String. Sets UTF-8 encoding internally.
+     * Reads contents of the input stream fully and returns it as String. Sets
+     * UTF-8 encoding internally.
      *
      * @param in InputStream to read from.
      * @return contents of the input stream fully as String.
@@ -158,7 +141,6 @@ public final class Util {
     public static String read(InputStream in) throws IOException {
         return read(in, "UTF-8");
     }
-
 
     /**
      * Reads contents of the input stream fully and returns it as String.
@@ -186,7 +168,6 @@ public final class Util {
             closeQuietly(reader);
         }
     }
-
 
     /**
      * Reads contents of the input stream fully and returns it as byte array.
@@ -255,165 +236,22 @@ public final class Util {
     }
 
     /**
-     * Returns true if value is either null or it's String representation is blank.
+     * Returns true if value is either null or it's String representation is
+     * blank.
      *
      * @param value object to check.
-     * @return true if value is either null or it's String representation is blank, otherwise returns false.
+     * @return true if value is either null or it's String representation is
+     * blank, otherwise returns false.
      */
     public static boolean blank(Object value) {
         return value == null || value.toString().trim().length() == 0;
     }
 
     /**
-     * Returns true if array is either null or empty.
-     *
-     * @param array array to check
-     * @return true if array is either null or empty, false otherwise
-     */
-    public static boolean empty(Object[] array) {
-        return array == null || array.length == 0;
-    }
-
-    /**
-     * Returns true if collection is either null or empty.
-     *
-     * @param collection collection to check
-     * @return true if collection is either null or empty, false otherwise
-     */
-    public static boolean empty(Collection<?> collection) {
-        return collection == null || collection.isEmpty();
-    }
-
-    /**
-     * Joins the items in array with a delimiter.
-     *
-     * @param array array of items to join.
-     * @param delimiter delimiter to insert between elements of array.
-     * @return string with array elements separated by delimiter. There is no trailing delimiter in the string.
-     */
-    public static String join(String[] array, String delimiter) {
-        if (empty(array)) { return ""; }
-        StringBuilder sb = new StringBuilder();
-        join(sb, array, delimiter);
-        return sb.toString();
-    }
-
-    /**
-     * Splits a string into an array using provided delimiters. Empty (but not blank) split chunks are omitted.
-     * The split chunks are trimmed.
-     *
-     * @param input string to split.
-     * @param delimiters delimiters
-     * @return a string split into an array using provided delimiters
-     */
-    public static String[] split(String input, String delimiters) {
-        if (input == null) { throw new NullPointerException("input cannot be null"); }
-
-        List<String> tokens  = new ArrayList<String>();
-        StringTokenizer st = new StringTokenizer(input, delimiters);
-        while(st.hasMoreTokens()) {
-            tokens.add(st.nextToken().trim());
-        }
-        return tokens.toArray(new String[tokens.size()]);
-    }
-
-    /**
-     * Splits a string into an array using provided delimiter. Empty (but not blank) split chunks are omitted.
-     * The split chunks are trimmed.
-     *
-     * @param input string to split.
-     * @param delimiter delimiter
-     * @return a string split into an array using a provided delimiter
-     */
-    public static String[] split(String input, char delimiter) {
-        return split(input, String.valueOf(delimiter));
-    }
-
-    /**
-     * Joins the items in collection with a delimiter.
-     *
-     * @param collection collection of items to join.
-     * @param delimiter delimiter to insert between elements of collection.
-     * @return string with collection elements separated by delimiter. There is no trailing delimiter in the string.
-     */
-    public static String join(Collection<?> collection, String delimiter) {
-        if (collection.isEmpty()) { return ""; }
-        StringBuilder sb = new StringBuilder();
-        join(sb, collection, delimiter);
-        return sb.toString();
-    }
-
-    /**
-     * Joins the items in collection with a delimiter, and appends the result to StringBuilder.
-     *
-     * @param sb StringBuilder to append result to
-     * @param collection collection of items to join.
-     * @param delimiter delimiter to insert between elements of collection.
-     */
-    public static void join(StringBuilder sb, Collection<?> collection, String delimiter) {
-        if (collection.isEmpty()) { return; }
-        Iterator<?> it = collection.iterator();
-        sb.append(it.next());
-        while (it.hasNext()) {
-            sb.append(delimiter);
-            sb.append(it.next());
-        }
-    }
-
-    /**
-     * Joins the items in array with a delimiter, and appends the result to StringBuilder.
-     *
-     * @param sb StringBuilder to append result to
-     * @param array array of items to join.
-     * @param delimiter delimiter to insert between elements of array.
-     */
-    public static void join(StringBuilder sb, Object[] array, String delimiter) {
-        if (empty(array)) { return; }
-        sb.append(array[0]);
-        for (int i = 1; i < array.length; i++) {
-            sb.append(delimiter);
-            sb.append(array[i]);
-        }
-    }
-
-    /**
-     * Repeats string of characters a defined number of times, and appends result to StringBuilder.
-     *
-     * @param sb StringBuilder to append result to
-     * @param str string of characters to be repeated.
-     * @param count number of times to repeat, zero or a negative number produces no result
-     */
-    public static void repeat(StringBuilder sb, String str, int count) {
-        for (int i = 0; i < count; i++) {
-            sb.append(str);
-        }
-    }
-
-    /**
-     * Repeats string of characters a defined number of times with a delimiter, and appends result to StringBuilder.
-     *
-     * <p>For example, <tt>joinAndRepeat(sb, "?", ",", 3)</tt> will append <tt>"?,?,?"</tt> to <tt>sb</tt>.
-     *
-     * @param sb StringBuilder to append result to
-     * @param str string of characters to be repeated.
-     * @param delimiter delimiter to insert between repeated items.
-     * @param count number of times to repeat, zero or a negative number produces no result
-     */
-    public static void joinAndRepeat(StringBuilder sb, String str, String delimiter, int count) {
-        if (count > 0) {
-            sb.append(str);
-            for (int i = 1; i < count; i++) {
-                sb.append(delimiter);
-                sb.append(str);
-            }
-        }
-    }
-
-    /**
      * Saves content read from input stream into a file.
      *
      * @param path path to file.
-     * @param in  input stream to read content from.
+     * @param in input stream to read content from.
      */
     public static void saveTo(String path, InputStream in) {
         if (in == null) {
@@ -439,6 +277,21 @@ public final class Util {
         }
     }
 
+    /**
+     * Saves content of byte array to file.
+     *
+     * @param path path to file - can be absolute or relative to current.
+     * @param content bytes to save.
+     */
+    public static void saveTo(String path, byte[] content) {
+        InputStream is = null;
+        try {
+            is = new ByteArrayInputStream(content);
+            saveTo(path, is);
+        } finally {
+            closeQuietly(is);
+        }
+    }
 
     /**
      * Converts stack trace to string.
@@ -463,22 +316,6 @@ public final class Util {
     }
 
     /**
-     * Saves content of byte array to file.
-     *
-     * @param path path to file - can be absolute or relative to current.
-     * @param content bytes to save.
-     */
-    public static void saveTo(String path, byte[] content) {
-        InputStream is = null;
-        try {
-            is = new ByteArrayInputStream(content);
-            saveTo(path, is);
-        } finally {
-            closeQuietly(is);
-        }
-    }
-
-    /**
      * Will encode byte array using Base64 encoding.
      *
      * @param input bytes to encode
@@ -499,32 +336,33 @@ public final class Util {
     }
 
     /**
-     * Convenience method to create literal String arrays.
-     * Helps to replace code like this:
+     * Convenience method to create literal String arrays. Helps to replace code
+     * like this:
      * <p>
-     *     <code>
+     * <code>
      *         String[] t = new String[]{"one", "two"}
-     *     </code>
+     * </code>
      * </p>
      * with:
      * <p>
-     *      <code>
+     * <code>
      *         String[] t = arr("one", "two");
-     *     </code>
+     * </code>
      * </p>
      *
      * @param params strings to create array
      * @return array of strings
      */
-    public String[] arr(String ... params){
+    public String[] arr(String... params) {
         return params;
     }
 
     /**
-     * Reads  a property file from classpath to a properties object.
+     * Reads a property file from classpath to a properties object.
      *
-     * @param file full path to a property file on  class path
-     * @return <code>java.util.Properties</code> object initialized from the file.
+     * @param file full path to a property file on class path
+     * @return <code>java.util.Properties</code> object initialized from the
+     * file.
      * @throws IOException
      */
     public static Properties readProperties(String file) throws IOException {
@@ -533,10 +371,11 @@ public final class Util {
         if (in != null) {
             props.load(in);
         } else {
-            FileInputStream fin = new FileInputStream(file);
-            props.load(fin);
-            fin.close();
+            try (FileInputStream fin = new FileInputStream(file)) {
+                props.load(fin);
+            }
         }
         return props;
     }
+
 }
